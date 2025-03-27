@@ -1,6 +1,6 @@
 from colorama import Fore, Style
 import os
-from xor_text_finder import *
+from xor_text_finder import WordFinder, xor_key_text_list, check_ascii,xor_key_text, check_potential_stream,extra_strict_check
 
 def print_text(text_list: list[bytes]) -> None:
     """
@@ -148,7 +148,7 @@ class CribDragger:
             target_key = my_new_key
             set_text =  [x for x in set_text if len(x)>len(target_key)]
             if len(set_text)==1:
-                return target_key
+                return ((target_key,my_new_key),self.invalid_pts)
             try:
                 new_target_key = self.word_finder.identify_potential_keys(target_key,set_text,2,True)
                 if isinstance(new_target_key,list):
@@ -158,10 +158,10 @@ class CribDragger:
                             new_target_key = temp_key
                         else:
                             print(Fore.RED + "\tNo valid key extensions found. Returning last known key." + Style.RESET_ALL)
-                            return target_key, self.invalid_pts
+                            return ((target_key,my_new_key),self.invalid_pts)
                     else:
                         print(Fore.RED + "\tNo valid key extensions found. Returning last known key." + Style.RESET_ALL)
-                        return target_key, self.invalid_pts
+                        return ((target_key,my_new_key),self.invalid_pts)
                 my_new_key = None
                 result = self.validate_key(new_target_key,set_text)
                 if result:
