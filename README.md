@@ -1,4 +1,3 @@
----
 
 ## 🧠 CribDragger — XOR Crib-Dragging Toolkit
 
